@@ -20,6 +20,13 @@ use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\CurrencyController;
 
 
+Route::get('/ping', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'API Finova en Railway funciona'
+    ]);
+});
+
 // Rutas públicas
 // Recuperación de contraseña
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
