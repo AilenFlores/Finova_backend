@@ -19,56 +19,18 @@ use App\Http\Controllers\StatisticsController;
 ////////////////////////////////////////////////////
 use App\Http\Controllers\CurrencyController;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Http\Request;
-Route::get('/run-full-setup', function () {
+Route::get('/run-dataapi', function () {
+    Artisan::call('dataapi:refresh --group=daily');
+    Artisan::call('dataapi:refresh --group=frequent');
+    Artisan::call('dataapi:refresh --group=weekly');
+    return 'DataAPI actualizado';
+});
 
-    Log::info("=== FULL SETUP INICIADO ===");
-
-    try {
-        Log::info("-> migrate:fresh");
-        Artisan::call('migrate:fresh', ['--force' => true]);
-        Log::info(Artisan::output());
-    } catch (\Exception $e) {
-        Log::error("ERROR migrate:fresh => " . $e->getMessage());
-    }
-
-    try {
-        Log::info("-> db:seed");
-        Artisan::call('db:seed', ['--force' => true]);
-        Log::info(Artisan::output());
-    } catch (\Exception $e) {
-        Log::error("ERROR db:seed => " . $e->getMessage());
-    }
-
-    try {
-        Log::info("-> dataapi daily");
-        Artisan::call('dataapi:refresh', ['--group' => 'daily']);
-        Log::info(Artisan::output());
-    } catch (\Exception $e) {
-        Log::error("ERROR daily => " . $e->getMessage());
-    }
-
-    try {
-        Log::info("-> dataapi frequent");
-        Artisan::call('dataapi:refresh', ['--group' => 'frequent']);
-        Log::info(Artisan::output());
-    } catch (\Exception $e) {
-        Log::error("ERROR frequent => " . $e->getMessage());
-    }
-
-    try {
-        Log::info("-> dataapi weekly");
-        Artisan::call('dataapi:refresh', ['--group' => 'weekly']);
-        Log::info(Artisan::output());
-    } catch (\Exception $e) {
-        Log::error("ERROR weekly => " . $e->getMessage());
-    }
-
-    Log::info("=== FULL SETUP FINALIZADO ===");
-
-    return "FULL SETUP ejecutado (ver logs)";
+Route::get('/ping', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'API Finova en Railway funciona'
+    ]);
 });
 
 // Rutas públicas
