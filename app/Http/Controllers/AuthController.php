@@ -134,13 +134,14 @@ class AuthController extends Controller
                 'message' => 'Tu cuenta fue dada de baja. Contactá soporte si querés reactivarla.'
             ], 403);
         }
-
+/*
         // 4) Email no verificado
         if (!$user->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'Revisá tu correo para verificar tu cuenta antes de ingresar.'
             ], 403);
         }
+            */
 
         // 5) OK → token
         $token = $user->createToken('api-token')->plainTextToken;
