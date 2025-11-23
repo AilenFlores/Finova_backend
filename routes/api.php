@@ -22,26 +22,53 @@ use App\Http\Controllers\CurrencyController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
+Route::get('/run-full-setup', function () {
 
-Route::get('/cron/dataapi', function (Request $request) {
-
-    Log::info("CRON EJECUTADO - Iniciando DataAPI");
+    Log::info("=== FULL SETUP INICIADO ===");
 
     try {
+        Log::info("-> migrate:fresh");
+        Artisan::call('migrate:fresh', ['--force' => true]);
+        Log::info(Artisan::output());
+    } catch (\Exception $e) {
+        Log::error("ERROR migrate:fresh => " . $e->getMessage());
+    }
+
+    try {
+        Log::info("-> db:seed");
+        Artisan::call('db:seed', ['--force' => true]);
+        Log::info(Artisan::output());
+    } catch (\Exception $e) {
+        Log::error("ERROR db:seed => " . $e->getMessage());
+    }
+
+    try {
+        Log::info("-> dataapi daily");
         Artisan::call('dataapi:refresh', ['--group' => 'daily']);
-        Log::info("CRON DAILY → " . Artisan::output());
+        Log::info(Artisan::output());
+    } catch (\Exception $e) {
+        Log::error("ERROR daily => " . $e->getMessage());
+    }
 
+    try {
+        Log::info("-> dataapi frequent");
         Artisan::call('dataapi:refresh', ['--group' => 'frequent']);
-        Log::info("CRON FREQUENT → " . Artisan::output());
+        Log::info(Artisan::output());
+    } catch (\Exception $e) {
+        Log::error("ERROR frequent => " . $e->getMessage());
+    }
 
+    try {
+        Log::info("-> dataapi weekly");
         Artisan::call('dataapi:refresh', ['--group' => 'weekly']);
-        Log::info("CRON WEEKLY → " . Artisan::output());
-    }
-    catch (\Exception $e) {
-        Log::error("CRON ERROR GENERAL → " . $e->getMessage());
+        Log::info(Artisan::output());
+    } catch (\Exception $e) {
+        Log::error("ERROR weekly => " . $e->getMessage());
     }
 
-    return "DataAPI actualizado";
+    Log::info("=== FULL SETUP FINALIZADO ===");
+
+    return "FULL SETUP ejecutado (ver logs)";
 });
 
 // Rutas públicas
