@@ -18,19 +18,22 @@ use App\Http\Controllers\StatisticsController;
 
 ////////////////////////////////////////////////////
 use App\Http\Controllers\CurrencyController;
-
 Route::get('/run-dataapi', function () {
-    Artisan::call('dataapi:refresh --group=daily');
-    Artisan::call('dataapi:refresh --group=frequent');
-    Artisan::call('dataapi:refresh --group=weekly');
-    return 'DataAPI actualizado';
-});
+    try {
+        Artisan::call('dataapi:refresh', ['--group' => 'daily']);
+        Log::info("DATAAPI DAILY => " . Artisan::output());
 
-Route::get('/ping', function () {
-    return response()->json([
-        'status' => 'ok',
-        'message' => 'API Finova en Railway funciona'
-    ]);
+        Artisan::call('dataapi:refresh', ['--group' => 'frequent']);
+        Log::info("DATAAPI FREQUENT => " . Artisan::output());
+
+        Artisan::call('dataapi:refresh', ['--group' => 'weekly']);
+        Log::info("DATAAPI WEEKLY => " . Artisan::output());
+
+        return "OK ejecutado correctamente";
+    } catch (\Exception $e) {
+        Log::error("ERROR DATAAPI => " . $e->getMessage());
+        return "ERROR: " . $e->getMessage();
+    }
 });
 
 // Rutas públicas
