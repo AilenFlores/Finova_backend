@@ -19,6 +19,12 @@ use App\Http\Controllers\StatisticsController;
 ////////////////////////////////////////////////////
 use App\Http\Controllers\CurrencyController;
 
+Route::get('/run-dataapi', function () {
+    Artisan::call('dataapi:refresh --group=daily');
+    Artisan::call('dataapi:refresh --group=frequent');
+    Artisan::call('dataapi:refresh --group=weekly');
+    return 'DataAPI actualizado';
+});
 
 Route::get('/ping', function () {
     return response()->json([
