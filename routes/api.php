@@ -36,6 +36,7 @@ Route::get('/run-dataapi', function () {
         return "ERROR: " . $e->getMessage();
     }
 });
+/*
 ///////////////////////////////////////////////////// RUN Y SEED DE MIGRACIONES
 Route::get('/run-migrations', function () {
     try {
@@ -47,7 +48,7 @@ Route::get('/run-migrations', function () {
         return "Error: " . $e->getMessage();
     }
 });
-
+*/
 
 
 
