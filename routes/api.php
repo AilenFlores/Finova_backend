@@ -36,6 +36,18 @@ Route::get('/run-dataapi', function () {
         return "ERROR: " . $e->getMessage();
     }
 });
+/////////////////////////////////////////////////////
+Route::get('/run-migrations', function () {
+    try {
+        \Artisan::call('migrate:fresh', ['--force' => true]);
+        \Artisan::call('db:seed', ['--force' => true]);
+
+        return "Migraciones y seeders ejecutados correctamente.";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 
 // Rutas públicas
 // Recuperación de contraseña
