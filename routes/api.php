@@ -36,7 +36,7 @@ Route::get('/run-dataapi', function () {
         return "ERROR: " . $e->getMessage();
     }
 });
-/////////////////////////////////////////////////////
+///////////////////////////////////////////////////// RUN Y SEED DE MIGRACIONES
 Route::get('/run-migrations', function () {
     try {
         \Artisan::call('migrate:fresh', ['--force' => true]);
@@ -48,15 +48,7 @@ Route::get('/run-migrations', function () {
     }
 });
 
-//////////////////////////////////////////////////////
-Route::get('/run-seeders', function () {
-    try {
-        \Artisan::call('db:seed', ['--force' => true]);
-        return "Seeders ejecutados correctamente.";
-    } catch (\Exception $e) {
-        return "Error: " . $e->getMessage();
-    }
-});
+
 
 
 // Rutas públicas
