@@ -48,6 +48,16 @@ Route::get('/run-migrations', function () {
     }
 });
 
+//////////////////////////////////////////////////////
+Route::get('/run-seeders', function () {
+    try {
+        \Artisan::call('db:seed', ['--force' => true]);
+        return "Seeders ejecutados correctamente.";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 
 // Rutas públicas
 // Recuperación de contraseña
