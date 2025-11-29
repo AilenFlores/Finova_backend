@@ -28,6 +28,7 @@ class CurrencySeeder extends Seeder
             ['code' => 'JPY', 'name' => 'Yen japonés', 'symbol' => '¥', 'rate' => 0],
             ['code' => 'CNY', 'name' => 'Yuan chino', 'symbol' => '¥', 'rate' => 0],
             /// nuevas
+            /*
             ['code' => 'UYU', 'name' => 'Peso uruguayo',        'symbol' => '$',   'rate' => 0],
             ['code' => 'PYG', 'name' => 'Guaraní paraguayo',    'symbol' => '₲',   'rate' => 0],
             ['code' => 'BOB', 'name' => 'Boliviano',            'symbol' => 'Bs',  'rate' => 0],
@@ -36,7 +37,7 @@ class CurrencySeeder extends Seeder
             ['code' => 'PAB', 'name' => 'Balboa panameño',      'symbol' => 'B/.', 'rate' => 0],
             ['code' => 'CRC', 'name' => 'Colón costarricense',  'symbol' => '₡',   'rate' => 0],
             ['code' => 'DOP', 'name' => 'Peso dominicano',      'symbol' => 'RD$', 'rate' => 0],
-
+*/
         ];
 
         foreach ($currencies as $currency) {
